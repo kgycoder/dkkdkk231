@@ -1,0 +1,187 @@
+/* ════════════════════════════════════════════
+   SYNC Android Mobile CSS
+   Mobile-first layout overrides
+════════════════════════════════════════════ */
+
+/* ── Safe area / status bar ── */
+:root {
+    --safe-top: env(safe-area-inset-top, 24px);
+    --safe-bottom: env(safe-area-inset-bottom, 16px);
+    --nav-h: 64px;
+    --bar-h: 72px;
+}
+
+/* ── Hide Windows title bar ── */
+#tbar { display: none !important; }
+#android-status-bar-spacer { height: var(--safe-top); }
+
+/* ── Shell: vertical stack on mobile ── */
+#shell {
+    flex-direction: column !important;
+    height: 100dvh !important;
+    padding-top: var(--safe-top) !important;
+    padding-bottom: calc(var(--nav-h) + var(--bar-h) + var(--safe-bottom)) !important;
+}
+
+/* ── Hide desktop sidebar ── */
+#side {
+    display: none !important;
+}
+
+/* ── Main content fills screen ── */
+#main {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    padding-bottom: 8px !important;
+}
+
+/* ── Bottom Navigation Bar ── */
+#android-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--nav-h) + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
+    background: rgba(8, 8, 13, 0.96);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: stretch;
+    z-index: 800;
+}
+
+.anav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.anav-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.anav-btn.on {
+    color: #fff;
+}
+
+.anav-btn.on svg {
+    transform: translateY(-2px) scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+}
+
+.anav-btn:active svg {
+    transform: scale(0.88);
+}
+
+/* ── Mini player bar (above bottom nav) ── */
+#bar {
+    bottom: calc(var(--nav-h) + var(--safe-bottom)) !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 0 12px !important;
+    height: var(--bar-h) !important;
+}
+
+/* ── Now Playing panel full-screen on mobile ── */
+#np {
+    border-radius: 0 !important;
+    height: 100dvh !important;
+    top: 0 !important;
+    padding-top: var(--safe-top) !important;
+    padding-bottom: calc(var(--nav-h) + var(--bar-h) + var(--safe-bottom)) !important;
+}
+
+#np.visible {
+    transform: translateY(0) !important;
+}
+
+/* ── Touch-friendly card sizes ── */
+.hcard {
+    min-width: 140px !important;
+    max-width: 160px !important;
+}
+
+.hcard img, .hcard .hct {
+    width: 140px !important;
+    height: 140px !important;
+}
+
+/* ── Search results as full-width list on mobile ── */
+@media (max-width: 600px) {
+    .cgrid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .srch-wrap {
+        max-width: 100% !important;
+    }
+
+    /* NP artwork bigger on mobile */
+    #np-art {
+        width: min(72vw, 320px) !important;
+        height: min(72vw, 320px) !important;
+        border-radius: 20px !important;
+    }
+
+    /* Lyrics panel scrollable */
+    #np-lyr-scroll {
+        max-height: 35vh !important;
+    }
+
+    /* Bigger touch targets for controls */
+    .np-btn, #np-pp {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+
+    /* Home top layout vertical on small screens */
+    .home-top {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+}
+
+/* ── Scrollbar hide on mobile ── */
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+*::-webkit-scrollbar { display: none; }
+
+/* ── Tap highlight removal ── */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Touch momentum scrolling ── */
+.hrow, #main, #np-lyr-scroll, #q-list, #fav-grid {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── Larger touch targets ── */
+button, .nb, .hcard, .cgcard {
+    min-height: 40px;
+    touch-action: manipulation;
+}
